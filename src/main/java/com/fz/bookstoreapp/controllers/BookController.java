@@ -27,12 +27,12 @@ public class BookController {
     public ResponseEntity<Book> get(@PathVariable Long id){
         try {
             Book book = bookService.getBookById(id);
-            return new ResponseEntity<Book>(book, HttpStatus.OK);
+            return new ResponseEntity<>(book, HttpStatus.OK);
         }catch (NoSuchElementException e){
-            return new ResponseEntity<Book>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @PostMapping("/books")
+    @PostMapping("/books/add")
     public void addProduct(@RequestBody Book book)
     {
         bookService.createBook(book);
