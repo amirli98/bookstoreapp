@@ -14,9 +14,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import com.fz.bookstoreapp.entities.Book;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -61,6 +65,10 @@ public class BookControllerTest {
         bookType1.setBooks(books);
         Mockito.when(bookService.getAllBooks()).thenReturn(books);
         String url = "/books";
-        mockMvc.perform(get(url)).andExpect(status().isOk());
+        MvcResult mvcResult= mockMvc.perform(get(url)).andExpect(status().isOk()).andReturn();
+        String actualJsonResponse = mvcResult.getResponse().getContentAsString();
+        System.out.println(actualJsonResponse);
+        String expectedJsonResponse = objectMapper.writeValueAsString(books);
+        assertThat(actualJsonResponse).isEqualToIgnoringWhitespace(expectedJsonResponse);
     }
 }
