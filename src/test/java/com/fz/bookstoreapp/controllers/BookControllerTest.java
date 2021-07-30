@@ -1,6 +1,7 @@
 package com.fz.bookstoreapp.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fz.bookstoreapp.entities.Book;
 import com.fz.bookstoreapp.entities.BookType;
 import com.fz.bookstoreapp.repositories.BookRepository;
 import com.fz.bookstoreapp.services.BookService;
@@ -10,18 +11,18 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import com.fz.bookstoreapp.entities.Book;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -70,5 +71,21 @@ public class BookControllerTest {
         System.out.println(actualJsonResponse);
         String expectedJsonResponse = objectMapper.writeValueAsString(books);
         assertThat(actualJsonResponse).isEqualToIgnoringWhitespace(expectedJsonResponse);
+    }
+    @SneakyThrows
+    @Test
+    public void testAddBook(){
+        BookType bookType = new BookType(1L,"Drama",null,null);
+        Book book1 = new Book(1L,"Pride and Prejudice",null,12D,1L,bookType);
+        Book book2 = new Book(2L,"Just Assasins",null,11.6D,1L,bookType);
+        List<Book> books = new ArrayList<>(List.of(new Book[]{book1, book2}));
+        bookType.setBooks(books);
+        Mockito.when(bookService.createBook(book1)).thenReturn(book1);
+        String url = "/books/add";
+        mockMvc.perform(
+                post(url)
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(book1)).with(csrf()))
+                .andExpect(status().isOk()).andExpect(content().string(""));
     }
 }
