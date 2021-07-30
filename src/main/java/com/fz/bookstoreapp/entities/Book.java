@@ -14,6 +14,8 @@ import java.util.Date;
 @ToString
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Book implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
