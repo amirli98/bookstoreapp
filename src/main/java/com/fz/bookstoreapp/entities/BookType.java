@@ -16,6 +16,8 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class BookType implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
