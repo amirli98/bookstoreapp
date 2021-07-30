@@ -4,6 +4,7 @@ import com.fz.bookstoreapp.entities.Book;
 import com.fz.bookstoreapp.repositories.BookRepository;
 import com.fz.bookstoreapp.repositories.BookTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

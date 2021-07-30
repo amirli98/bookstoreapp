@@ -11,8 +11,6 @@ import java.util.Date;
  * Created on: 7/26/2021
  */
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @ToString
 @Getter
 @Setter
@@ -23,11 +21,11 @@ public class Book implements Serializable {
     private Long id;
 
     @Column(name = "name", nullable = false, length = 50)
-    private String name;
+    private  String name;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "publishdate")
-    private Date publishDate;
+    private  Date publishDate = null;
 
     @Column(name = "price", nullable = false)
     private Double price;
@@ -35,7 +33,10 @@ public class Book implements Serializable {
     @Column(name = "booktype_id",nullable = false,insertable = false,updatable = false)
     private Long bookTypeId;
 
+
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "booktype_id", referencedColumnName = "id")
     private BookType bookType;
+
 }

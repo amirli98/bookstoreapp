@@ -13,8 +13,6 @@ import java.util.List;
  * Created on: 7/26/2021
  */
 @Entity(name = "booktype")
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @ToString
@@ -22,7 +20,7 @@ public class BookType implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
-    private Long id;
+    private  Long id;
 
 
     @Column(name = "name", nullable = false, length = 50)
@@ -30,11 +28,13 @@ public class BookType implements Serializable {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "createdtime")
-    private Date createdTime;
+    private Date createdTime = null;
 
     @OneToMany(targetEntity = Book.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "booktype_id",referencedColumnName = "id")
     @ToString.Exclude
     @JsonIgnore
     private List<Book> books;
+
+
 }
