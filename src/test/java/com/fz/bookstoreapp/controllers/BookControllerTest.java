@@ -81,7 +81,7 @@ public class BookControllerTest {
         List<Book> books = new ArrayList<>(List.of(new Book[]{book1, book2}));
         bookType.setBooks(books);
         Mockito.when(bookService.createBook(book1)).thenReturn(book1);
-        String url = "/books/add";
+        String url = "/api/books/add";
         mockMvc.perform(
                 post(url)
                         .contentType("application/json")
