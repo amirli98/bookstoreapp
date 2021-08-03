@@ -27,14 +27,14 @@ public class BookController {
 
     @GetMapping(value = "api/books")
     @ApiOperation("Gets all the books")
-    public List<Book> list(){
+    public List<Book> getAll(){
         return bookService.getAllBooks();
     }
 
     @ApiOperation("Gets a book with the specific id")
     @GetMapping("api/books/{id}")
     @ApiResponses(value = {@ApiResponse(code = 200,message = "OK",response = Book.class)})
-    public ResponseEntity<Book> get(@PathVariable Long id){
+    public ResponseEntity<Book> getBookById(@PathVariable Long id){
         try {
             Book book = bookService.getBookById(id);
             return new ResponseEntity<>(book, HttpStatus.OK);
@@ -44,7 +44,7 @@ public class BookController {
     }
     @PostMapping("/api/books/add")
     @ApiOperation("Adds a book to the database")
-    public void addProduct(@RequestBody Book book)
+    public void createBook(@RequestBody Book book)
     {
         bookService.createBook(book);
     }
@@ -53,7 +53,12 @@ public class BookController {
     public ResponseEntity<?> updateBook(@RequestBody Book book, @PathVariable Long id) {
         try {
             Book oldBook = bookService.getBookById(id);
-            bookService.createBook(book);
+            oldBook.setId(book.getId());
+            oldBook.setBookType(book.getBookType());
+            oldBook.setBookTypeId(book.getBookTypeId());
+            oldBook.setName(book.getName());
+            oldBook.setPrice(book.getPrice());
+            oldBook.setPublishDate(book.getPublishDate());
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (NoSuchElementException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
