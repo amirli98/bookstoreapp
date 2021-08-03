@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ public class BookService {
     private BookRepository bookRepository;
 
     public List<Book> getAllBooks(){
-        return bookRepository.findAll();
+        return new ArrayList<>(bookRepository.findAll());
     }
 
     public Book getBookById(Long id){
