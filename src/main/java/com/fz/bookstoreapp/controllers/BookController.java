@@ -2,6 +2,7 @@ package com.fz.bookstoreapp.controllers;
 
 import com.fz.bookstoreapp.entities.Book;
 import com.fz.bookstoreapp.services.BookService;
+import com.fz.bookstoreapp.utils.DbUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -28,7 +29,7 @@ public class BookController {
     @GetMapping(value = "api/books")
     @ApiOperation("Gets all the books")
     public List<Book> getAll(){
-        return bookService.getAllBooks();
+        return DbUtils.getAllBooks();
     }
 
     @ApiOperation("Gets a book with the specific id")
@@ -36,7 +37,7 @@ public class BookController {
     @ApiResponses(value = {@ApiResponse(code = 200,message = "OK",response = Book.class)})
     public ResponseEntity<Book> getBookById(@PathVariable Long id){
         try {
-            Book book = bookService.getBookById(id);
+            Book book = DbUtils.getBookById(id);
             return new ResponseEntity<>(book, HttpStatus.OK);
         }catch (NoSuchElementException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
